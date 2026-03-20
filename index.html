@@ -408,7 +408,11 @@ async function connect() {
   showLoading(true);
   try {
     const r = await ghGet(`/repos/${owner}/${repo}`);
-    if (!r.ok) throw new Error(r.status === 404 ? 'Repo introuvable ou accès refusé.' : 'Erreur de connexion.');
+    if (!r.ok) {
+      const body = await r.json().catch(() => ({}));
+      const msg = body.message || `Erreur HTTP ${r.status}`;
+      throw new Error(`GitHub: ${msg} (${r.status})`);
+    }
     cfg = { token, owner, repo };
     localStorage.setItem('gitdocs_cfg', JSON.stringify(cfg));
     showApp();
