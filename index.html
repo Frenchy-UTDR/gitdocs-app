@@ -408,6 +408,8 @@ async function connect() {
   showLoading(true);
   try {
     const r = await ghGet(`/repos/${owner}/${repo}`);
+    // Debug: log first 8 chars of token to verify
+    console.log('Token utilisé (8 premiers chars):', token.substring(0, 8));
     if (!r.ok) {
       const body = await r.json().catch(() => ({}));
       const msg = body.message || `Erreur HTTP ${r.status}`;
@@ -666,7 +668,7 @@ function toast(msg, isError = false) {
 // ─── GITHUB API ───────────────────────────────────────────
 function ghHeaders() {
   return {
-    'Authorization': `token ${cfg.token}`,
+    'Authorization': `Bearer ${cfg.token}`,
     'Content-Type': 'application/json',
     'Accept': 'application/vnd.github+json'
   };
