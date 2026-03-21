@@ -7,687 +7,455 @@
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --ink: #1a1a1a;
-    --ink-2: #555;
-    --ink-3: #999;
-    --paper: #faf9f7;
-    --sidebar-bg: #1c1c1e;
-    --sidebar-hover: #2a2a2e;
-    --sidebar-active: #3a3a3e;
-    --accent: #c8a96e;
-    --accent-dim: rgba(200,169,110,0.15);
-    --border: rgba(255,255,255,0.07);
-    --border-light: #e8e4de;
-    --success: #5cb88a;
-    --danger: #e06c6c;
-    --radius: 8px;
-    --toolbar-h: 48px;
-    --sidebar-w: 260px;
+    --ink: #1a1a1a; --ink-2: #555; --ink-3: #999;
+    --paper: #faf9f7; --sidebar-bg: #1c1c1e;
+    --sidebar-hover: #2a2a2e; --sidebar-active: #3a3a3e;
+    --accent: #c8a96e; --accent-dim: rgba(200,169,110,0.15);
+    --border: rgba(255,255,255,0.07); --border-light: #e8e4de;
+    --success: #5cb88a; --danger: #e06c6c; --radius: 8px;
   }
-
   html, body { height: 100%; font-family: 'DM Sans', sans-serif; background: var(--paper); color: var(--ink); overflow: hidden; }
 
-  /* ─── SETUP SCREEN ─────────────────────────────────────── */
-  #setup {
-    display: flex; align-items: center; justify-content: center;
-    height: 100vh; background: var(--sidebar-bg);
-  }
+  /* SETUP */
+  #setup { display: flex; align-items: center; justify-content: center; height: 100vh; background: var(--sidebar-bg); }
   .setup-card {
-    background: #242428; border: 1px solid var(--border);
-    border-radius: 16px; padding: 48px 52px; width: 480px;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+    background: #242428; border: 1px solid var(--border); border-radius: 16px;
+    padding: 48px 52px; width: 460px; box-shadow: 0 40px 80px rgba(0,0,0,0.5); text-align: center;
   }
-  .setup-logo { font-family: 'Lora', serif; font-size: 28px; color: var(--accent); margin-bottom: 6px; }
-  .setup-sub { color: var(--ink-3); font-size: 13px; margin-bottom: 36px; }
-  .setup-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3); margin-bottom: 6px; display: block; }
-  .setup-input {
-    width: 100%; background: #1a1a1c; border: 1px solid #3a3a3e;
-    border-radius: var(--radius); color: #eee; font-family: 'DM Mono', monospace;
-    font-size: 13px; padding: 10px 14px; outline: none; transition: border .2s;
-    margin-bottom: 20px;
+  .setup-logo { font-family: 'Lora', serif; font-size: 32px; color: var(--accent); margin-bottom: 8px; }
+  .setup-sub { color: var(--ink-3); font-size: 14px; margin-bottom: 40px; line-height: 1.6; }
+  .google-btn {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    width: 100%; padding: 14px 24px; background: #fff; border: none; border-radius: var(--radius);
+    cursor: pointer; font-size: 15px; font-weight: 500; color: #333;
+    font-family: 'DM Sans', sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: box-shadow .2s, transform .1s;
   }
-  .setup-input:focus { border-color: var(--accent); }
-  .setup-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .setup-btn {
-    width: 100%; margin-top: 8px; padding: 13px; background: var(--accent);
-    color: #1a1a1a; font-weight: 600; font-size: 14px; border: none;
-    border-radius: var(--radius); cursor: pointer; transition: opacity .2s;
+  .google-btn:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.4); }
+  .google-btn:active { transform: scale(.98); }
+  .config-section { margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--border); text-align: left; }
+  .config-label { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3); margin-bottom: 6px; display: block; }
+  .config-input {
+    width: 100%; background: #1a1a1c; border: 1px solid #3a3a3e; border-radius: var(--radius);
+    color: #eee; font-family: 'DM Mono', monospace; font-size: 13px;
+    padding: 10px 14px; outline: none; transition: border .2s; margin-bottom: 10px;
   }
-  .setup-btn:hover { opacity: .85; }
-  .setup-help { margin-top: 20px; font-size: 12px; color: var(--ink-3); line-height: 1.7; }
+  .config-input:focus { border-color: var(--accent); }
+  .config-save-btn {
+    width: 100%; padding: 11px; background: var(--accent); color: #1a1a1a;
+    font-weight: 600; font-size: 13px; border: none; border-radius: var(--radius);
+    cursor: pointer; transition: opacity .2s;
+  }
+  .config-save-btn:hover { opacity: .85; }
+  .setup-help { margin-top: 20px; font-size: 12px; color: var(--ink-3); line-height: 1.8; text-align: left; }
   .setup-help a { color: var(--accent); text-decoration: none; }
-  .setup-error { color: var(--danger); font-size: 12px; margin-top: 10px; display: none; }
+  .setup-help details summary { cursor: pointer; color: var(--accent); font-size: 12px; margin-bottom: 8px; }
+  .setup-error { color: var(--danger); font-size: 12px; margin-top: 12px; display: none; }
 
-  /* ─── APP LAYOUT ────────────────────────────────────────── */
+  /* APP */
   #app { display: none; height: 100vh; }
-
   .layout { display: flex; height: 100vh; }
-
-  /* ─── SIDEBAR ───────────────────────────────────────────── */
   .sidebar {
-    width: var(--sidebar-w); background: var(--sidebar-bg);
-    display: flex; flex-direction: column; flex-shrink: 0;
-    border-right: 1px solid var(--border);
+    width: 260px; background: var(--sidebar-bg); display: flex;
+    flex-direction: column; flex-shrink: 0; border-right: 1px solid var(--border);
   }
-  .sidebar-header {
-    padding: 20px 18px 16px;
-    border-bottom: 1px solid var(--border);
-    display: flex; align-items: center; justify-content: space-between;
-  }
+  .sidebar-header { padding: 20px 18px 16px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
   .logo { font-family: 'Lora', serif; font-size: 20px; color: var(--accent); }
-  .logo span { color: #888; font-style: italic; font-size: 13px; margin-left: 6px; }
   .icon-btn {
-    background: none; border: none; color: #666; cursor: pointer;
-    width: 30px; height: 30px; border-radius: 6px; display: flex;
-    align-items: center; justify-content: center; transition: background .15s, color .15s;
+    background: none; border: none; color: #666; cursor: pointer; width: 30px; height: 30px;
+    border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: background .15s, color .15s;
   }
   .icon-btn:hover { background: var(--sidebar-hover); color: #ccc; }
-
   .new-doc-btn {
-    margin: 12px 12px 8px;
-    padding: 9px 14px; background: var(--accent-dim); border: 1px dashed rgba(200,169,110,0.3);
-    border-radius: var(--radius); color: var(--accent); font-size: 13px; font-weight: 500;
-    cursor: pointer; width: calc(100% - 24px); text-align: left;
-    transition: background .15s; display: flex; align-items: center; gap: 8px;
+    margin: 12px 12px 8px; padding: 9px 14px; background: var(--accent-dim);
+    border: 1px dashed rgba(200,169,110,0.3); border-radius: var(--radius);
+    color: var(--accent); font-size: 13px; font-weight: 500; cursor: pointer;
+    width: calc(100% - 24px); text-align: left; transition: background .15s;
+    display: flex; align-items: center; gap: 8px;
   }
   .new-doc-btn:hover { background: rgba(200,169,110,0.22); }
-
   .file-list { flex: 1; overflow-y: auto; padding: 4px 8px 16px; }
   .file-list::-webkit-scrollbar { width: 4px; }
-  .file-list::-webkit-scrollbar-track { background: transparent; }
   .file-list::-webkit-scrollbar-thumb { background: #3a3a3e; border-radius: 2px; }
-
   .file-item {
     padding: 9px 10px; border-radius: 6px; cursor: pointer;
-    display: flex; align-items: center; gap: 8px;
-    transition: background .12s; margin-bottom: 2px; position: relative;
+    display: flex; align-items: center; gap: 8px; transition: background .12s; margin-bottom: 2px;
   }
   .file-item:hover { background: var(--sidebar-hover); }
   .file-item.active { background: var(--sidebar-active); }
-  .file-icon { font-size: 14px; flex-shrink: 0; }
-  .file-name {
-    font-size: 13px; color: #ccc; white-space: nowrap;
-    overflow: hidden; text-overflow: ellipsis; flex: 1;
-  }
+  .file-name { font-size: 13px; color: #ccc; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex: 1; }
   .file-item.active .file-name { color: #fff; }
-  .file-delete {
-    opacity: 0; background: none; border: none; color: #e06c6c;
-    cursor: pointer; font-size: 14px; padding: 2px 4px; border-radius: 4px;
-    transition: opacity .15s;
-  }
+  .file-delete { opacity: 0; background: none; border: none; color: #e06c6c; cursor: pointer; font-size: 14px; padding: 2px 4px; border-radius: 4px; transition: opacity .15s; }
   .file-item:hover .file-delete { opacity: 1; }
-
-  .sidebar-footer {
-    border-top: 1px solid var(--border); padding: 12px 14px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .repo-name { font-family: 'DM Mono', monospace; font-size: 11px; color: #555; }
-  .logout-btn {
-    font-size: 11px; color: #555; background: none; border: none;
-    cursor: pointer; transition: color .15s;
-  }
+  .sidebar-footer { border-top: 1px solid var(--border); padding: 12px 14px; display: flex; align-items: center; gap: 10px; }
+  .user-avatar { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; }
+  .user-name { font-size: 12px; color: #888; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .logout-btn { font-size: 11px; color: #555; background: none; border: none; cursor: pointer; transition: color .15s; }
   .logout-btn:hover { color: var(--danger); }
-
-  /* ─── EDITOR AREA ───────────────────────────────────────── */
   .editor-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
-
-  /* Toolbar */
-  .toolbar {
-    height: var(--toolbar-h); background: #fff; border-bottom: 1px solid var(--border-light);
-    display: flex; align-items: center; padding: 0 20px; gap: 2px; flex-shrink: 0;
-  }
+  .toolbar { height: 48px; background: #fff; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; padding: 0 20px; gap: 2px; flex-shrink: 0; }
   .toolbar-sep { width: 1px; height: 20px; background: var(--border-light); margin: 0 6px; }
   .tb-btn {
     background: none; border: none; cursor: pointer; color: var(--ink-2);
     width: 32px; height: 32px; border-radius: 5px; display: flex;
     align-items: center; justify-content: center; font-size: 14px;
-    font-family: 'DM Sans', sans-serif; font-weight: 500;
-    transition: background .12s, color .12s;
+    font-family: 'DM Sans', sans-serif; font-weight: 500; transition: background .12s, color .12s;
   }
   .tb-btn:hover { background: #f0ece6; color: var(--ink); }
   .tb-btn.active { background: var(--accent-dim); color: var(--accent); }
-  .tb-select {
-    background: none; border: none; border-radius: 5px; padding: 4px 8px;
-    font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink-2);
-    cursor: pointer; outline: none; transition: background .12s;
-  }
+  .tb-select { background: none; border: none; border-radius: 5px; padding: 4px 8px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink-2); cursor: pointer; outline: none; }
   .tb-select:hover { background: #f0ece6; }
-
-  /* Title bar */
-  .title-bar {
-    padding: 24px 80px 0; display: flex; align-items: center; gap: 12px;
-    background: var(--paper); flex-shrink: 0;
-  }
-  #doc-title {
-    font-family: 'Lora', serif; font-size: 28px; font-weight: 600;
-    color: var(--ink); border: none; background: transparent;
-    outline: none; flex: 1; border-bottom: 2px solid transparent;
-    transition: border-color .2s; padding-bottom: 4px;
-  }
+  .title-bar { padding: 24px 80px 0; display: flex; align-items: center; gap: 12px; background: var(--paper); flex-shrink: 0; }
+  #doc-title { font-family: 'Lora', serif; font-size: 28px; font-weight: 600; color: var(--ink); border: none; background: transparent; outline: none; flex: 1; border-bottom: 2px solid transparent; transition: border-color .2s; padding-bottom: 4px; }
   #doc-title:focus { border-bottom-color: var(--accent); }
   #doc-title::placeholder { color: #ccc; }
-
-  .save-btn {
-    padding: 8px 20px; background: var(--accent); color: #1a1a1a;
-    border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600;
-    cursor: pointer; transition: opacity .2s, transform .1s; flex-shrink: 0;
-  }
+  .save-btn { padding: 8px 20px; background: var(--accent); color: #1a1a1a; border: none; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; transition: opacity .2s; flex-shrink: 0; }
   .save-btn:hover { opacity: .85; }
-  .save-btn:active { transform: scale(.97); }
   .save-btn:disabled { opacity: .4; cursor: default; }
-
-  .save-status {
-    font-size: 12px; color: var(--ink-3); white-space: nowrap; flex-shrink: 0;
-  }
+  .save-status { font-size: 12px; color: var(--ink-3); white-space: nowrap; }
   .save-status.ok { color: var(--success); }
   .save-status.err { color: var(--danger); }
-
-  /* Editor */
   .editor-scroll { flex: 1; overflow-y: auto; padding: 24px 80px 80px; }
   .editor-scroll::-webkit-scrollbar { width: 6px; }
-  .editor-scroll::-webkit-scrollbar-track { background: transparent; }
   .editor-scroll::-webkit-scrollbar-thumb { background: #d8d3cc; border-radius: 3px; }
-
-  #editor {
-    min-height: 400px; outline: none; line-height: 1.9;
-    font-family: 'Lora', serif; font-size: 17px; color: var(--ink);
-    caret-color: var(--accent); max-width: 720px;
-  }
-  #editor h1 { font-size: 26px; margin: 28px 0 10px; line-height: 1.3; }
-  #editor h2 { font-size: 21px; margin: 22px 0 8px; line-height: 1.4; }
+  #editor { min-height: 400px; outline: none; line-height: 1.9; font-family: 'Lora', serif; font-size: 17px; color: var(--ink); caret-color: var(--accent); max-width: 720px; }
+  #editor h1 { font-size: 26px; margin: 28px 0 10px; }
+  #editor h2 { font-size: 21px; margin: 22px 0 8px; }
   #editor h3 { font-size: 18px; margin: 18px 0 6px; }
   #editor p { margin-bottom: 14px; }
   #editor ul, #editor ol { padding-left: 28px; margin-bottom: 14px; }
   #editor li { margin-bottom: 6px; }
-  #editor blockquote {
-    border-left: 3px solid var(--accent); margin: 20px 0;
-    padding: 8px 20px; color: var(--ink-2); font-style: italic;
-  }
+  #editor blockquote { border-left: 3px solid var(--accent); margin: 20px 0; padding: 8px 20px; color: var(--ink-2); font-style: italic; }
   #editor a { color: var(--accent); }
-  #editor code {
-    font-family: 'DM Mono', monospace; font-size: 14px;
-    background: #f0ece6; padding: 2px 6px; border-radius: 4px;
-  }
-  #editor hr { border: none; border-top: 1px solid var(--border-light); margin: 28px 0; }
-
-  /* Placeholder */
-  #editor:empty::before {
-    content: attr(data-placeholder); color: #ccc; pointer-events: none;
-    font-style: italic;
-  }
-
-  /* ─── EMPTY STATE ───────────────────────────────────────── */
-  .empty-state {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    color: var(--ink-3); text-align: center; padding: 40px;
-  }
+  #editor code { font-family: 'DM Mono', monospace; font-size: 14px; background: #f0ece6; padding: 2px 6px; border-radius: 4px; }
+  #editor:empty::before { content: attr(data-placeholder); color: #ccc; pointer-events: none; font-style: italic; }
+  .empty-state { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--ink-3); text-align: center; padding: 40px; }
   .empty-state .big-icon { font-size: 52px; margin-bottom: 16px; opacity: .4; }
   .empty-state h3 { font-family: 'Lora', serif; font-size: 20px; color: var(--ink-2); margin-bottom: 8px; }
   .empty-state p { font-size: 13px; max-width: 280px; line-height: 1.6; }
-
-  /* ─── LOADING ───────────────────────────────────────────── */
-  .loading-overlay {
-    position: fixed; inset: 0; background: rgba(28,28,30,.85);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 999; display: none;
-  }
-  .spinner {
-    width: 36px; height: 36px; border: 3px solid rgba(200,169,110,.2);
-    border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite;
-  }
+  .loading-overlay { position: fixed; inset: 0; background: rgba(28,28,30,.85); display: none; align-items: center; justify-content: center; z-index: 999; }
+  .loading-overlay.show { display: flex; }
+  .spinner { width: 36px; height: 36px; border: 3px solid rgba(200,169,110,.2); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ─── TOAST ─────────────────────────────────────────────── */
-  .toast {
-    position: fixed; bottom: 24px; right: 24px; padding: 12px 20px;
-    background: #2a2a2e; color: #fff; border-radius: var(--radius);
-    font-size: 13px; box-shadow: 0 8px 24px rgba(0,0,0,.3);
-    transform: translateY(80px); opacity: 0; transition: all .3s;
-    z-index: 1000; border-left: 3px solid var(--success);
-  }
+  .toast { position: fixed; bottom: 24px; right: 24px; padding: 12px 20px; background: #2a2a2e; color: #fff; border-radius: var(--radius); font-size: 13px; box-shadow: 0 8px 24px rgba(0,0,0,.3); transform: translateY(80px); opacity: 0; transition: all .3s; z-index: 1000; border-left: 3px solid var(--success); }
   .toast.show { transform: translateY(0); opacity: 1; }
   .toast.error { border-left-color: var(--danger); }
 </style>
 </head>
 <body>
 
-<!-- ─── SETUP ─────────────────────────────────────────────── -->
 <div id="setup">
   <div class="setup-card">
     <div class="setup-logo">GitDocs</div>
-    <div class="setup-sub">Ton éditeur de texte, tes données sur GitHub.</div>
+    <div class="setup-sub">Ton éditeur de documents privés,<br>stockés dans ton Google Drive.</div>
 
-    <label class="setup-label">Token GitHub personnel</label>
-    <input class="setup-input" id="s-token" type="password" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off">
+    <button class="google-btn" onclick="signIn()">
+      <svg width="20" height="20" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      Se connecter avec Google
+    </button>
 
-    <div class="setup-row">
-      <div>
-        <label class="setup-label">Nom d'utilisateur GitHub</label>
-        <input class="setup-input" id="s-owner" type="text" placeholder="ton-username">
-      </div>
-      <div>
-        <label class="setup-label">Nom du repo privé</label>
-        <input class="setup-input" id="s-repo" type="text" placeholder="mes-docs">
-      </div>
+    <div class="config-section">
+      <label class="config-label">Google Client ID</label>
+      <input class="config-input" id="client-id-input" type="text" placeholder="xxxxxxxxxxxx.apps.googleusercontent.com">
+      <button class="config-save-btn" onclick="saveClientId()">Enregistrer le Client ID</button>
     </div>
 
-    <button class="setup-btn" onclick="connect()">Se connecter →</button>
     <div class="setup-error" id="setup-error"></div>
+
     <div class="setup-help">
-      1. Crée un <a href="https://github.com/new" target="_blank">repo privé sur GitHub</a><br>
-      2. Génère un <a href="https://github.com/settings/tokens/new?scopes=repo" target="_blank">token avec scope "repo"</a><br>
-      3. Colle les infos ci-dessus — elles restent dans <em>ton</em> navigateur uniquement.
+      <details>
+        <summary>▸ Comment obtenir un Client ID ? (3 min)</summary>
+        1. <a href="https://console.cloud.google.com/projectcreate" target="_blank">Crée un projet Google Cloud</a><br>
+        2. Va dans <strong>APIs & Services → Bibliothèque</strong> → active <strong>Google Drive API</strong><br>
+        3. Va dans <strong>APIs & Services → Identifiants</strong> → <strong>Créer des identifiants → ID client OAuth</strong><br>
+        4. Type : <strong>Application Web</strong><br>
+        5. Origines JS autorisées : ajoute l'URL de ton GitHub Pages<br>
+        6. Copie le <strong>Client ID</strong> et colle-le ci-dessus
+      </details>
     </div>
   </div>
 </div>
 
-<!-- ─── APP ───────────────────────────────────────────────── -->
 <div id="app">
   <div class="layout">
-
-    <!-- Sidebar -->
     <div class="sidebar">
       <div class="sidebar-header">
         <div class="logo">GitDocs</div>
-        <button class="icon-btn" onclick="refreshFiles()" title="Actualiser">↻</button>
+        <button class="icon-btn" onclick="loadFiles()" title="Actualiser">↻</button>
       </div>
-
-      <button class="new-doc-btn" onclick="newDoc()">
-        <span>＋</span> Nouveau document
-      </button>
-
-      <div class="file-list" id="file-list">
-        <!-- files injected here -->
-      </div>
-
+      <button class="new-doc-btn" onclick="newDoc()"><span>＋</span> Nouveau document</button>
+      <div class="file-list" id="file-list"></div>
       <div class="sidebar-footer">
-        <span class="repo-name" id="repo-label"></span>
-        <button class="logout-btn" onclick="logout()">Déconnexion</button>
+        <img class="user-avatar" id="user-avatar" src="" alt="">
+        <span class="user-name" id="user-name"></span>
+        <button class="logout-btn" onclick="signOut()">Déconnexion</button>
       </div>
     </div>
 
-    <!-- Editor or empty state -->
-    <div class="editor-area" id="editor-area">
+    <div class="editor-area">
       <div class="empty-state" id="empty-state">
         <div class="big-icon">📄</div>
         <h3>Aucun document ouvert</h3>
         <p>Crée un nouveau document ou sélectionne-en un dans la liste.</p>
       </div>
-
       <div id="doc-view" style="display:none; flex-direction:column; height:100%;">
-        <!-- Toolbar -->
         <div class="toolbar">
-          <select class="tb-select" onchange="execCmd('formatBlock', this.value); this.value='p'">
+          <select class="tb-select" onchange="execCmd('formatBlock',this.value);this.value='p'">
             <option value="p">Paragraphe</option>
             <option value="h1">Titre 1</option>
             <option value="h2">Titre 2</option>
             <option value="h3">Titre 3</option>
             <option value="blockquote">Citation</option>
           </select>
-
           <div class="toolbar-sep"></div>
-
-          <button class="tb-btn" id="tb-bold" title="Gras" onclick="execCmd('bold')"><b>B</b></button>
-          <button class="tb-btn" id="tb-italic" title="Italique" onclick="execCmd('italic')"><i>I</i></button>
-          <button class="tb-btn" id="tb-underline" title="Souligner" onclick="execCmd('underline')"><u>U</u></button>
-          <button class="tb-btn" id="tb-strike" title="Barré" onclick="execCmd('strikeThrough')"><s>S</s></button>
-
+          <button class="tb-btn" id="tb-bold" onclick="execCmd('bold')"><b>B</b></button>
+          <button class="tb-btn" id="tb-italic" onclick="execCmd('italic')"><i>I</i></button>
+          <button class="tb-btn" id="tb-underline" onclick="execCmd('underline')"><u>U</u></button>
+          <button class="tb-btn" id="tb-strike" onclick="execCmd('strikeThrough')"><s>S</s></button>
           <div class="toolbar-sep"></div>
-
-          <button class="tb-btn" title="Liste à puces" onclick="execCmd('insertUnorderedList')">≡</button>
-          <button class="tb-btn" title="Liste numérotée" onclick="execCmd('insertOrderedList')">1≡</button>
-
+          <button class="tb-btn" onclick="execCmd('insertUnorderedList')">≡</button>
+          <button class="tb-btn" onclick="execCmd('insertOrderedList')">1≡</button>
           <div class="toolbar-sep"></div>
-
-          <button class="tb-btn" title="Aligner à gauche" onclick="execCmd('justifyLeft')">⬛</button>
-          <button class="tb-btn" title="Centrer" onclick="execCmd('justifyCenter')">▣</button>
-
-          <div class="toolbar-sep"></div>
-
-          <button class="tb-btn" title="Lien" onclick="insertLink()">🔗</button>
-          <button class="tb-btn" title="Ligne horizontale" onclick="execCmd('insertHorizontalRule')">—</button>
-
+          <button class="tb-btn" onclick="insertLink()">🔗</button>
           <div style="flex:1"></div>
-
-          <span class="save-status" id="save-status"></span>
-          &nbsp;
-          <button class="save-btn" id="save-btn" onclick="saveDoc()">Enregistrer</button>
+          <span class="save-status" id="save-status"></span>&nbsp;
+          <button class="save-btn" onclick="saveDoc()">Enregistrer</button>
         </div>
-
-        <!-- Title -->
         <div class="title-bar">
           <input id="doc-title" type="text" placeholder="Titre du document..." autocomplete="off">
         </div>
-
-        <!-- Content -->
         <div class="editor-scroll">
           <div id="editor" contenteditable="true" data-placeholder="Commence à écrire…"></div>
         </div>
       </div>
     </div>
-
   </div>
 </div>
 
-<!-- Loading overlay -->
 <div class="loading-overlay" id="loading"><div class="spinner"></div></div>
-<!-- Toast -->
 <div class="toast" id="toast"></div>
 
+<script src="https://accounts.google.com/gsi/client" async></script>
 <script>
-// ─── STATE ────────────────────────────────────────────────
-let cfg = { token: '', owner: '', repo: '' };
-let currentFile = null; // { name, sha }
-let files = [];
+const FOLDER_NAME = 'GitDocs';
+const SCOPES = 'https://www.googleapis.com/auth/drive.file';
+
+let accessToken = null;
+let folderId = null;
+let currentFile = null;
 let dirty = false;
+let tokenClient = null;
 
-const DOCS_PATH = 'docs';
-
-// ─── INIT ─────────────────────────────────────────────────
 window.addEventListener('load', () => {
-  const saved = localStorage.getItem('gitdocs_cfg');
-  if (saved) {
-    cfg = JSON.parse(saved);
-    showApp();
-  }
+  const savedId = localStorage.getItem('gitdocs_client_id');
+  if (savedId) document.getElementById('client-id-input').value = savedId;
+  const savedToken = sessionStorage.getItem('gitdocs_token');
+  if (savedToken && savedId) { accessToken = savedToken; initApp(); }
 });
 
-// ─── SETUP ────────────────────────────────────────────────
-async function connect() {
-  const token = document.getElementById('s-token').value.trim();
-  const owner = document.getElementById('s-owner').value.trim();
-  const repo  = document.getElementById('s-repo').value.trim();
-  const err   = document.getElementById('setup-error');
-  err.style.display = 'none';
-
-  if (!token || !owner || !repo) { showErr('Remplis tous les champs.'); return; }
-
-  showLoading(true);
-  try {
-    const r = await ghGet(`/repos/${owner}/${repo}`);
-    // Debug: log first 8 chars of token to verify
-    console.log('Token utilisé (8 premiers chars):', token.substring(0, 8));
-    if (!r.ok) {
-      const body = await r.json().catch(() => ({}));
-      const msg = body.message || `Erreur HTTP ${r.status}`;
-      throw new Error(`GitHub: ${msg} (${r.status})`);
-    }
-    cfg = { token, owner, repo };
-    localStorage.setItem('gitdocs_cfg', JSON.stringify(cfg));
-    showApp();
-  } catch(e) { showErr(e.message); }
-  finally { showLoading(false); }
-
-  function showErr(msg) { err.textContent = msg; err.style.display = 'block'; }
+function saveClientId() {
+  const id = document.getElementById('client-id-input').value.trim();
+  if (!id) { showSetupError('Entre un Client ID valide.'); return; }
+  localStorage.setItem('gitdocs_client_id', id);
+  toast('Client ID enregistré !');
 }
 
-function logout() {
-  if (!confirm('Déconnexion ? (tes docs restent sur GitHub)')) return;
-  localStorage.removeItem('gitdocs_cfg');
-  currentFile = null; files = [];
+function signIn() {
+  const clientId = localStorage.getItem('gitdocs_client_id') || document.getElementById('client-id-input').value.trim();
+  if (!clientId) { showSetupError('Entre d\'abord ton Client ID Google et clique sur Enregistrer.'); return; }
+  if (typeof google === 'undefined') { showSetupError('La librairie Google n\'est pas encore chargée, réessaie dans 2 secondes.'); return; }
+
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: clientId,
+    scope: SCOPES,
+    callback: async (resp) => {
+      if (resp.error) { showSetupError('Erreur auth : ' + resp.error); return; }
+      accessToken = resp.access_token;
+      sessionStorage.setItem('gitdocs_token', accessToken);
+      await initApp();
+    }
+  });
+  tokenClient.requestAccessToken();
+}
+
+function signOut() {
+  if (!confirm('Déconnexion ?')) return;
+  if (accessToken) google.accounts.oauth2.revoke(accessToken);
+  accessToken = null; sessionStorage.removeItem('gitdocs_token');
+  folderId = null; currentFile = null;
   document.getElementById('app').style.display = 'none';
   document.getElementById('setup').style.display = 'flex';
 }
 
-// ─── APP INIT ─────────────────────────────────────────────
-async function showApp() {
-  document.getElementById('setup').style.display = 'none';
-  document.getElementById('app').style.display = 'block';
-  document.getElementById('repo-label').textContent = `${cfg.owner}/${cfg.repo}`;
-  await ensureDocsFolder();
-  await refreshFiles();
-}
-
-async function ensureDocsFolder() {
-  // Try to list docs/ — if 404, create a .gitkeep
-  const r = await ghGet(`/repos/${cfg.owner}/${cfg.repo}/contents/${DOCS_PATH}`);
-  if (r.status === 404) {
-    await ghPut(`/repos/${cfg.owner}/${cfg.repo}/contents/${DOCS_PATH}/.gitkeep`, {
-      message: 'Init GitDocs',
-      content: btoa('')
-    });
-  }
-}
-
-// ─── FILE LIST ────────────────────────────────────────────
-async function refreshFiles() {
+async function initApp() {
   showLoading(true);
   try {
-    const r = await ghGet(`/repos/${cfg.owner}/${cfg.repo}/contents/${DOCS_PATH}`);
+    const userResp = await gFetch('https://www.googleapis.com/oauth2/v3/userinfo');
+    const user = await userResp.json();
+    document.getElementById('user-name').textContent = user.name || user.email;
+    document.getElementById('user-avatar').src = user.picture || '';
+    folderId = await getOrCreateFolder();
+    document.getElementById('setup').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    await loadFiles();
+  } catch(e) {
+    showSetupError('Erreur : ' + e.message);
+    accessToken = null; sessionStorage.removeItem('gitdocs_token');
+  } finally { showLoading(false); }
+}
+
+async function getOrCreateFolder() {
+  const q = encodeURIComponent(`name='${FOLDER_NAME}' and mimeType='application/vnd.google-apps.folder' and trashed=false`);
+  const r = await gFetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id)`);
+  const data = await r.json();
+  if (data.files && data.files.length > 0) return data.files[0].id;
+  const cr = await gFetch('https://www.googleapis.com/drive/v3/files', {
+    method: 'POST', body: JSON.stringify({ name: FOLDER_NAME, mimeType: 'application/vnd.google-apps.folder' })
+  });
+  const folder = await cr.json();
+  return folder.id;
+}
+
+async function loadFiles() {
+  showLoading(true);
+  try {
+    const q = encodeURIComponent(`'${folderId}' in parents and mimeType='text/html' and trashed=false`);
+    const r = await gFetch(`https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id,name,modifiedTime)&orderBy=modifiedTime desc`);
     const data = await r.json();
-    files = Array.isArray(data)
-      ? data.filter(f => f.name.endsWith('.html') && f.name !== '.gitkeep')
-      : [];
-    renderFileList();
-  } catch(e) { toast('Erreur de chargement des fichiers', true); }
+    renderFileList(data.files || []);
+  } catch(e) { toast('Erreur de chargement', true); }
   finally { showLoading(false); }
 }
 
-function renderFileList() {
+function renderFileList(files) {
   const list = document.getElementById('file-list');
   list.innerHTML = '';
-  if (files.length === 0) {
-    list.innerHTML = '<div style="padding:16px 12px; color:#555; font-size:12px;">Aucun document. Crée-en un !</div>';
-    return;
-  }
+  if (!files.length) { list.innerHTML = '<div style="padding:16px 12px;color:#555;font-size:12px;">Aucun document.</div>'; return; }
   files.forEach(f => {
     const name = f.name.replace('.html', '');
     const item = document.createElement('div');
-    item.className = 'file-item' + (currentFile && currentFile.name === f.name ? ' active' : '');
-    item.innerHTML = `
-      <span class="file-icon">📄</span>
-      <span class="file-name" title="${name}">${name}</span>
-      <button class="file-delete" title="Supprimer" onclick="deleteDoc(event, '${f.name}', '${f.sha}')">✕</button>
-    `;
-    item.addEventListener('click', () => openDoc(f.name));
+    item.className = 'file-item' + (currentFile && currentFile.id === f.id ? ' active' : '');
+    item.innerHTML = `<span style="font-size:14px">📄</span><span class="file-name">${name}</span><button class="file-delete" onclick="deleteDoc(event,'${f.id}','${f.name}')">✕</button>`;
+    item.addEventListener('click', () => openDoc(f.id, f.name));
     list.appendChild(item);
   });
 }
 
-// ─── OPEN DOC ─────────────────────────────────────────────
-async function openDoc(filename) {
+async function openDoc(id, filename) {
   if (dirty && !confirm('Modifications non sauvegardées. Continuer ?')) return;
-
   showLoading(true);
   try {
-    const r = await ghGet(`/repos/${cfg.owner}/${cfg.repo}/contents/${DOCS_PATH}/${filename}`);
-    const data = await r.json();
-    const html = decodeURIComponent(escape(atob(data.content.replace(/\n/g, ''))));
-    currentFile = { name: filename, sha: data.sha };
-
+    const r = await gFetch(`https://www.googleapis.com/drive/v3/files/${id}?alt=media`);
+    const html = await r.text();
+    currentFile = { id, name: filename };
     document.getElementById('doc-title').value = filename.replace('.html', '');
     document.getElementById('editor').innerHTML = html;
-    setStatus('');
-    setDirty(false);
-
+    setDirty(false); setStatus('');
     document.getElementById('empty-state').style.display = 'none';
     document.getElementById('doc-view').style.display = 'flex';
-    renderFileList();
+    await loadFiles();
     document.getElementById('editor').focus();
   } catch(e) { toast('Impossible d\'ouvrir le fichier', true); }
   finally { showLoading(false); }
 }
 
-// ─── NEW DOC ──────────────────────────────────────────────
 function newDoc() {
   if (dirty && !confirm('Modifications non sauvegardées. Continuer ?')) return;
   currentFile = null;
   document.getElementById('doc-title').value = '';
   document.getElementById('editor').innerHTML = '';
-  setDirty(false);
-  setStatus('');
+  setDirty(false); setStatus('');
   document.getElementById('empty-state').style.display = 'none';
   document.getElementById('doc-view').style.display = 'flex';
-  renderFileList();
   document.getElementById('doc-title').focus();
 }
 
-// ─── SAVE DOC ─────────────────────────────────────────────
 async function saveDoc() {
   const title = document.getElementById('doc-title').value.trim();
   if (!title) { alert('Donne un titre au document !'); return; }
-
   const content = document.getElementById('editor').innerHTML;
   const filename = slugify(title) + '.html';
-  const b64 = btoa(unescape(encodeURIComponent(content)));
-
+  const blob = new Blob([content], { type: 'text/html' });
   const btn = document.getElementById('save-btn');
-  btn.disabled = true;
-  setStatus('Sauvegarde…');
-
+  btn.disabled = true; setStatus('Sauvegarde…');
   try {
-    // If renaming, check if old file differs
-    if (currentFile && currentFile.name !== filename) {
-      // Delete old file first
-      await ghDelete(`/repos/${cfg.owner}/${cfg.repo}/contents/${DOCS_PATH}/${currentFile.name}`, {
-        message: `Rename: ${currentFile.name} → ${filename}`,
-        sha: currentFile.sha
-      });
-      currentFile = null;
-    }
-
-    const body = {
-      message: currentFile ? `Update: ${filename}` : `Create: ${filename}`,
-      content: b64
-    };
-    if (currentFile) body.sha = currentFile.sha;
-
-    const r = await ghPut(`/repos/${cfg.owner}/${cfg.repo}/contents/${DOCS_PATH}/${filename}`, body);
+    const form = new FormData();
+    const meta = currentFile
+      ? JSON.stringify({ name: filename })
+      : JSON.stringify({ name: filename, parents: [folderId] });
+    form.append('metadata', new Blob([meta], { type: 'application/json' }));
+    form.append('file', blob);
+    const url = currentFile
+      ? `https://www.googleapis.com/upload/drive/v3/files/${currentFile.id}?uploadType=multipart&fields=id,name`
+      : 'https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id,name';
+    const method = currentFile ? 'PATCH' : 'POST';
+    const r = await fetch(url, { method, headers: { 'Authorization': `Bearer ${accessToken}` }, body: form });
     const data = await r.json();
-
-    currentFile = { name: filename, sha: data.content.sha };
-    setDirty(false);
-    setStatus('✓ Sauvegardé', 'ok');
-    toast('Document sauvegardé sur GitHub !');
-    await refreshFiles();
-  } catch(e) {
-    setStatus('Erreur lors de la sauvegarde', 'err');
-    toast('Erreur de sauvegarde', true);
-  } finally {
-    btn.disabled = false;
-  }
+    currentFile = { id: data.id, name: data.name };
+    setDirty(false); setStatus('✓ Sauvegardé', 'ok');
+    toast('Sauvegardé dans Google Drive !');
+    await loadFiles();
+  } catch(e) { setStatus('Erreur', 'err'); toast('Erreur de sauvegarde', true); }
+  finally { btn.disabled = false; }
 }
 
-// ─── DELETE DOC ───────────────────────────────────────────
-async function deleteDoc(e, filename, sha) {
+async function deleteDoc(e, id, filename) {
   e.stopPropagation();
-  if (!confirm(`Supprimer "${filename.replace('.html','')}" ? Cette action est irréversible.`)) return;
+  if (!confirm(`Supprimer "${filename.replace('.html','')}" ?`)) return;
   showLoading(true);
   try {
-    await ghDelete(`/repos/${cfg.owner}/${cfg.repo}/contents/${DOCS_PATH}/${filename}`, {
-      message: `Delete: ${filename}`, sha
+    await fetch(`https://www.googleapis.com/drive/v3/files/${id}`, {
+      method: 'DELETE', headers: { 'Authorization': `Bearer ${accessToken}` }
     });
-    if (currentFile && currentFile.name === filename) {
+    if (currentFile && currentFile.id === id) {
       currentFile = null;
       document.getElementById('doc-view').style.display = 'none';
       document.getElementById('empty-state').style.display = 'flex';
     }
-    toast('Document supprimé.');
-    await refreshFiles();
-  } catch(e) { toast('Erreur de suppression', true); }
+    toast('Supprimé.'); await loadFiles();
+  } catch(e) { toast('Erreur', true); }
   finally { showLoading(false); }
 }
 
-// ─── EDITOR ───────────────────────────────────────────────
-function execCmd(cmd, val = null) {
-  document.getElementById('editor').focus();
-  document.execCommand(cmd, false, val);
-  updateToolbar();
-  setDirty(true);
-}
-
-function insertLink() {
-  const url = prompt('URL du lien :');
-  if (url) execCmd('createLink', url);
-}
+function execCmd(cmd, val=null) { document.getElementById('editor').focus(); document.execCommand(cmd,false,val); updateToolbar(); setDirty(true); }
+function insertLink() { const u=prompt('URL :'); if(u) execCmd('createLink',u); }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const ed = document.getElementById('editor');
-  ed.addEventListener('input', () => setDirty(true));
-  ed.addEventListener('keyup', updateToolbar);
-  ed.addEventListener('mouseup', updateToolbar);
-
-  // Ctrl+S to save
-  document.addEventListener('keydown', e => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-      e.preventDefault();
-      if (document.getElementById('doc-view').style.display !== 'none') saveDoc();
-    }
-  });
-
-  // Mark dirty on title change
+  document.getElementById('editor').addEventListener('input', () => setDirty(true));
+  document.getElementById('editor').addEventListener('keyup', updateToolbar);
+  document.getElementById('editor').addEventListener('mouseup', updateToolbar);
   document.getElementById('doc-title').addEventListener('input', () => setDirty(true));
+  document.addEventListener('keydown', e => {
+    if ((e.ctrlKey||e.metaKey) && e.key==='s') { e.preventDefault(); if(document.getElementById('doc-view').style.display!=='none') saveDoc(); }
+  });
 });
 
 function updateToolbar() {
-  ['bold','italic','underline','strikeThrough'].forEach(cmd => {
-    const map = { bold:'tb-bold', italic:'tb-italic', underline:'tb-underline', strikeThrough:'tb-strike' };
-    const el = document.getElementById(map[cmd]);
-    if (el) el.classList.toggle('active', document.queryCommandState(cmd));
+  [['bold','tb-bold'],['italic','tb-italic'],['underline','tb-underline'],['strikeThrough','tb-strike']].forEach(([c,id]) => {
+    document.getElementById(id)?.classList.toggle('active', document.queryCommandState(c));
   });
 }
 
-// ─── HELPERS ──────────────────────────────────────────────
-function setDirty(v) {
-  dirty = v;
-  if (!v) setStatus('');
+function gFetch(url, opts={}) {
+  return fetch(url, { ...opts, headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json', ...(opts.headers||{}) } });
 }
 
-function setStatus(msg, type = '') {
-  const el = document.getElementById('save-status');
-  el.textContent = msg;
-  el.className = 'save-status' + (type ? ' ' + type : '');
-}
-
-function slugify(str) {
-  return str.toLowerCase()
-    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-').trim();
-}
-
-function showLoading(v) {
-  document.getElementById('loading').style.display = v ? 'flex' : 'none';
-}
-
+function setDirty(v) { dirty=v; if(!v) setStatus(''); }
+function setStatus(msg, type='') { const el=document.getElementById('save-status'); el.textContent=msg; el.className='save-status'+(type?' '+type:''); }
+function slugify(s) { return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').trim(); }
+function showLoading(v) { document.getElementById('loading').classList.toggle('show',v); }
+function showSetupError(msg) { const el=document.getElementById('setup-error'); el.textContent=msg; el.style.display='block'; }
 let toastTimer;
-function toast(msg, isError = false) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.className = 'toast' + (isError ? ' error' : '');
-  void el.offsetWidth;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
-}
-
-// ─── GITHUB API ───────────────────────────────────────────
-function ghHeaders() {
-  return {
-    'Authorization': `Bearer ${cfg.token}`,
-    'Content-Type': 'application/json',
-    'Accept': 'application/vnd.github+json'
-  };
-}
-
-function ghGet(path) {
-  return fetch(`https://api.github.com${path}`, { headers: ghHeaders() });
-}
-
-function ghPut(path, body) {
-  return fetch(`https://api.github.com${path}`, {
-    method: 'PUT', headers: ghHeaders(), body: JSON.stringify(body)
-  });
-}
-
-function ghDelete(path, body) {
-  return fetch(`https://api.github.com${path}`, {
-    method: 'DELETE', headers: ghHeaders(), body: JSON.stringify(body)
-  });
+function toast(msg, isError=false) {
+  const el=document.getElementById('toast'); el.textContent=msg;
+  el.className='toast'+(isError?' error':''); void el.offsetWidth; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer=setTimeout(()=>el.classList.remove('show'),3000);
 }
 </script>
 </body>
